@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import { CfnOutput, RemovalPolicy } from 'aws-cdk-lib';
 import { Distribution, ViewerProtocolPolicy } from 'aws-cdk-lib/aws-cloudfront';
-import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
+import { S3BucketOrigin, S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { BlockPublicAccess, Bucket } from 'aws-cdk-lib/aws-s3';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 
@@ -19,13 +19,18 @@ export class DeploymentService extends Construct {
 
         const distribution = new Distribution(this, 'CloudfrontDistribution', {
             defaultBehavior: {
-                origin: new S3Origin(hostingBucket),
+                origin: S3BucketOrigin.withOriginAccessControl(hostingBucket),
                 viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
             },
             defaultRootObject: 'index.html',
             errorResponses: [
                 {
                     httpStatus: 404,
+                    responseHttpStatus: 200,
+                    responsePagePath: '/index.html',
+                },
+                {
+                    httpStatus: 403,
                     responseHttpStatus: 200,
                     responsePagePath: '/index.html',
                 },
