@@ -13,6 +13,7 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
+import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 
 export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -122,10 +123,11 @@ export default function Sidebar() {
       >
         <MenuIcon />
       </IconButton>
-      <Drawer
+      <SwipeableDrawer
         variant="temporary"
         open={mobileOpen}
         onTransitionEnd={handleDrawerTransitionEnd}
+        onOpen={() => {}}
         onClose={handleDrawerClose}
         sx={{
           display: { xs: 'block', sm: 'none' },
@@ -138,7 +140,7 @@ export default function Sidebar() {
         }}
       >
         {drawer}
-      </Drawer>
+      </SwipeableDrawer>
       <Drawer
         variant="permanent"
         sx={{
