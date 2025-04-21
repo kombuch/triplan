@@ -35,7 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: { sm: 'flex' } }}>
           <Sidebar />
           {children}
           <ScrollRestoration />
